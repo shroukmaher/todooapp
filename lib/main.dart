@@ -1,9 +1,22 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:todooapp/ui/screens/home/HomeScreen.dart';
 import 'package:todooapp/ui/utils/app_theme.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyBKrEPSkn3eQxOzpRocc4HD3NMD9q-qDhs",
+      appId: "1:303355207222:android:6a45126d351dcc6efec297",
+      messagingSenderId: "todo-49214",
+      projectId: "todo-49214"
+    ),
+  );
+  runApp(MyApp());
+}
+
+class DefaultFirebaseOptions {
 }
 
 class MyApp extends StatelessWidget {

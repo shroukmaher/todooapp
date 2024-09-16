@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:todooapp/ui/utils/app_colors.dart';
 
@@ -22,6 +24,8 @@ class AddBottomSheet extends StatefulWidget {
 
 class _AddBottomSheetState extends State<AddBottomSheet> {
   DateTime selectedDate=DateTime.now();
+  TextEditingController titleController=TextEditingController();
+  TextEditingController descController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +38,15 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
         children: [
           Text("Add new task",textAlign: TextAlign.center,
           style: AppStyle.bottomSheetTitle,),
-          const TextField(
-            decoration: InputDecoration(
+          TextField(
+            controller: titleController,
+            decoration: const InputDecoration(
               hintText: "Enter task title"
             ),
           ),
           SizedBox(height: 12,),
-          const TextField(
+           TextField(
+           controller: descController,
             decoration: InputDecoration(
                 hintText: "Enter task description"
             ),
@@ -53,13 +59,27 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
           },
               child: Text("${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",style: AppStyle.normalGreyTextStyle,textAlign: TextAlign.center,)),
           Spacer(),
-          ElevatedButton(onPressed: (){},
+          ElevatedButton(onPressed: (){
+            AddToDotoFireStore();
+          },
               child: Text("Add"))
         ],
       ),
     );
   }
 
+  void AddToDotoFireStore() async{
+ CollectionReference todosCollection= FirebaseFirestore.instance.collection("todo");
+ DocumentReference doc=todosCollection.doc();
+ await doc.set({
+   "id":doc.id,
+   "title":titleController.text,
+   "description": descController.text,
+   "date":selectedDate,
+   "isDone": false
+ });
+ Navigator.pop(context);
+  }
   void showMyDatePicker() async{
 
    selectedDate= await showDatePicker(
