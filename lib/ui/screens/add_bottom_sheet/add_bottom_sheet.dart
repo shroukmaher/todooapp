@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:todooapp/ui/model/Todo_DM.dart';
 import 'package:todooapp/ui/utils/app_colors.dart';
 
 import '../../utils/app_styles.dart';
@@ -71,13 +72,11 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   void AddToDotoFireStore() async{
  CollectionReference todosCollection= FirebaseFirestore.instance.collection("todo");
  DocumentReference doc=todosCollection.doc();
- await doc.set({
-   "id":doc.id,
-   "title":titleController.text,
-   "description": descController.text,
-   "date":selectedDate,
-   "isDone": false
- });
+ TodoDM tododm=TodoDM(id:doc.id,
+ title: titleController.text,
+ date: selectedDate,
+ description: descController.text,isDone: false);
+ await doc.set(tododm.toJson());
  Navigator.pop(context);
   }
   void showMyDatePicker() async{

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:todooapp/ui/screens/home/HomeScreen.dart';
+import 'package:todooapp/ui/screens/updateTodo/updateTodotask.dart';
 import 'package:todooapp/ui/utils/app_theme.dart';
 
 void main() async {
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.dark,
       routes: {
         Home.RouteName:(_)=>const Home(),
+        TaskEdit.route:(_)=>TaskEdit(),
       },
       initialRoute: Home.RouteName,
     );
